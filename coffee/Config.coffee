@@ -4,8 +4,26 @@ window.Config =
   # The scale to be used when converting Box2d co-ordinates to pixels.
   "SCALE": 40
 
+  # The amount of each shape that should be created.
+  "NUM_EACH_SHAPE": 30
+
+  # How big the world should be.
+  "WORLD_WIDTH": 10
+  "WORLD_HALF_WIDTH": 5
+
+  # The speed at which the main drum should rotate.
+  "DRUM_ANGULAR_VELOCITY": Math.PI / 3
+
+  # The number of fixtures that should be used to create the drum.
+  "NUM_DRUM_SECTIONS": 32
+
   # The min and max dimensions for the different shapes.
   "MIN_BALL_RADIUS": 0.1
   "MAX_BALL_RADIUS": 0.4
   "MIN_BOX_DIMENSION": 0.1
   "MAX_BOX_DIMENSION": 0.4
+
+  # The min and max step size (in ms) to be used for calculating the physics.
+  # The entire simulation will always be run as close as possible to 60fps.
+  "MIN_STEP_SIZE": 1/2400
+  "MAX_STEP_SIZE": 1/100

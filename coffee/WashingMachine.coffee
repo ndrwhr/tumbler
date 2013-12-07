@@ -3,15 +3,14 @@
 b2Vec2 = Box2D.Common.Math.b2Vec2
 b2AABB = Box2D.Collision.b2AABB
 
-rand = (min, max) ->
-  (Math.random() * (max - min)) + min
-
 class Box extends Shape
   constructor: (options) ->
     super(options)
 
-    @width_ = rand(Config.MIN_BOX_DIMENSION, Config.MAX_BOX_DIMENSION)
-    @height_ = rand(Config.MIN_BOX_DIMENSION, Config.MAX_BOX_DIMENSION)
+    @width_ = Utilities.rand(Config.MIN_BOX_DIMENSION,
+      Config.MAX_BOX_DIMENSION)
+    @height_ = Utilities.rand(Config.MIN_BOX_DIMENSION,
+      Config.MAX_BOX_DIMENSION)
     @area_ = @width_ * @height_
 
     @svgShape_ = document.createElementNS("http://www.w3.org/2000/svg", "rect")
@@ -43,7 +42,7 @@ class Ball extends Shape
   constructor: (options) ->
     super(options)
 
-    @radius_ = rand(Config.MIN_BALL_RADIUS, Config.MAX_BALL_RADIUS)
+    @radius_ = Utilities.rand(Config.MIN_BALL_RADIUS, Config.MAX_BALL_RADIUS)
 
     @svgShape_ = document.createElementNS("http://www.w3.org/2000/svg",
       "circle")
@@ -66,55 +65,66 @@ class Ball extends Shape
 
 class WashingMachine
   constructor: (options) ->
-    @world_ = new Box2D.Dynamics.b2World(new b2Vec2(0, 9), true)
-
-    @contactListener_ = new Box2D.Dynamics.b2ContactListener()
-    @contactListener_.BeginContact = @onContactStart_
-    @contactListener_.EndContact = @onContactEnd_
-
-    @world_.SetContactListener(@contactListener_);
-
     @svg_ = document.querySelector("#main-canvas")
 
-    @populateItems_()
-
-    fixtureDef = new Box2D.Dynamics.b2FixtureDef()
-    fixtureDef.density = 1.0
-    fixtureDef.friction = 1.0
-    fixtureDef.restitution = 0.1
-    fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape()
-
-    bodyDef = new Box2D.Dynamics.b2BodyDef()
-    bodyDef.type = Box2D.Dynamics.b2Body.b2_kinematicBody
-    bodyDef.position.x = 5;
-    bodyDef.position.y = 5;
-
-    body = @world_.CreateBody(bodyDef)
-    body.SetAngularVelocity(Math.PI / 3)
-
-    RADIUS = 5
-    ANGLE = (Math.PI * 2) / 32
-    WIDTH = RADIUS * Math.sin(ANGLE)
-    angle = 0
-
-    while angle < (Math.PI * 2)
-      fixtureDef.shape.SetAsOrientedBox(0.1, WIDTH / 2, new b2Vec2(RADIUS * Math.cos(angle), RADIUS * Math.sin(angle)), angle)
-      body.CreateFixture(fixtureDef)
-      angle += ANGLE
+    @initializeWorld_()
+    @createDrumContainer_()
+    @createShapes_()
 
     frame = =>
       @update_()
       requestAnimationFrame(frame)
     frame()
 
-  populateItems_: =>
-    @items_ = []
-    for i in [1..30]
-      @items_.push(new Ball(
+  initializeWorld_: ->
+    gravity = new b2Vec2(0, 9)
+    @world_ = new Box2D.Dynamics.b2World(gravity, true)
+
+    @contactListener_ = new Box2D.Dynamics.b2ContactListener()
+    @contactListener_.BeginContact = @onContactStart_
+    @contactListener_.EndContact = @onContactEnd_
+
+    @world_.SetContactListener(@contactListener_)
+
+  createDrumContainer_: ->
+    drumBodyDef = new Box2D.Dynamics.b2BodyDef()
+    drumBodyDef.type = Box2D.Dynamics.b2Body.b2_kinematicBody
+    drumBodyDef.position.x = Config.WORLD_HALF_WIDTH
+    drumBodyDef.position.y = Config.WORLD_HALF_WIDTH
+    drumBody = @world_.CreateBody(drumBodyDef)
+    drumBody.SetAngularVelocity(Config.DRUM_ANGULAR_VELOCITY)
+
+    # Define the common fixture to be used by all of the sections.
+    fixtureDef = new Box2D.Dynamics.b2FixtureDef()
+    fixtureDef.density = 1.0
+    fixtureDef.friction = 1.0
+    fixtureDef.restitution = 0.1
+    fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape()
+
+    currentAngle = 0
+    angleStep = (Math.PI * 2) / Config.NUM_DRUM_SECTIONS
+    sectionWidth = Config.WORLD_HALF_WIDTH * Math.sin(angleStep)
+
+    while currentAngle < (Math.PI * 2)
+      initialPosition = new b2Vec2(
+        Config.WORLD_HALF_WIDTH * Math.cos(currentAngle),
+        Config.WORLD_HALF_WIDTH * Math.sin(currentAngle))
+
+      fixtureDef.shape.SetAsOrientedBox(0.1, sectionWidth / 2, initialPosition,
+        currentAngle)
+
+      drumBody.CreateFixture(fixtureDef)
+
+      currentAngle += angleStep
+
+  createShapes_: =>
+    @shapes_ = []
+    for i in [1..Config.NUM_EACH_SHAPE]
+      @shapes_.push(new Ball(
           world: @world_
           svg: @svg_
         ))
-      @items_.push(new Box(
+      @shapes_.push(new Box(
           world: @world_
           svg: @svg_
         ))
@@ -149,15 +159,13 @@ class WashingMachine
       userDataB.endContact(userDataA.id)
 
   update_: =>
-    minFramerate = 1/2400
-    maxFramerate = 1/100
+    stepSize = Utilities.range(Config.MIN_STEP_SIZE, Config.MAX_STEP_SIZE,
+      parseFloat(window.input.value))
 
-    framerate = (parseFloat(window.input.value) * (maxFramerate - minFramerate)) + minFramerate
+    @world_.Step(stepSize, 5, 5)
 
-    @world_.Step(framerate, 5, 5)
-
-    for item in @items_
-      item.draw()
+    for shape in @shapes_
+      shape.draw()
 
     @world_.ClearForces()
 

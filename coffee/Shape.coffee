@@ -15,12 +15,12 @@ class Shape
 
     # Generate a random position inside the radius. This is needed so that
     # all the balls don't just pile up in the middle and explode outwards.
-    # Explode is probably to dramatic of a word.
+    # Explode is probably too dramatic of a word.
     t = Math.random() * Math.PI * 2
     u = Math.random() + Math.random()
     r = 3 * (if u > 1 then 2 - u else u)
-    @bodyDef_.position.x = 5 + r * Math.cos(t)
-    @bodyDef_.position.y = 5 + r * Math.sin(t)
+    @bodyDef_.position.x = Config.WORLD_HALF_WIDTH + r * Math.cos(t)
+    @bodyDef_.position.y = Config.WORLD_HALF_WIDTH + r * Math.sin(t)
 
     @contacts_ = ''
     @color_ = @generateRandomColor_()

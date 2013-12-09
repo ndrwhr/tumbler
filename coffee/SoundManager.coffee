@@ -6,17 +6,15 @@ SoundManager =
     @context_ = new AudioContext()
     @masterGainNode_ = @context_.createGainNode()
     @masterGainNode_.gain.value = 1
-    console.log(@masterGainNode_.gain.value)
     @compressorNode_ = @context_.createDynamicsCompressor()
     @convolverNode_ = @context_.createConvolver()
 
     for soundName in Object.keys(options.sounds)
       @loadSound_(soundName, '/sounds/' + options.sounds[soundName])
 
-  createSound: (soundName) ->
-    new Sound(
-      context: @context_
-      soundName: soundName)
+  # Simple getter for the AudioContext object.
+  getContext: ->
+    @context_
 
   createBufferSource: ->
     minRate = 0.25

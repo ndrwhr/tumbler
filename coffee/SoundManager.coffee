@@ -1,5 +1,5 @@
 
-SoundLoader =
+SoundManager =
   buffers_: {}
   load: (options) ->
     AudioContext = (window.AudioContext or window.webkitAudioContext)
@@ -55,4 +55,4 @@ SoundLoader =
     request.send();
 
 # export the class.
-window.SoundLoader = SoundLoader
+window.SoundManager = SoundManager

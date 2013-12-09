@@ -29,7 +29,7 @@ do ->
     w.cancelAnimationFrame = (id) -> clearTimeout id
 
 window.addEventListener('DOMContentLoaded', ->
-  SoundLoader.load(
+  SoundManager.load(
     sounds:
       "convolver": "dining-living-true-stereo.wav"
 

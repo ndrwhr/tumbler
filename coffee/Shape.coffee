@@ -56,7 +56,7 @@ class Shape
     scale = Math.round(scale * 11).toString()
 
     console.log(scale)
-    SoundLoader.createSound(scale)
+    SoundManager.createSound(scale)
 
   generateId_: ->
     Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1)

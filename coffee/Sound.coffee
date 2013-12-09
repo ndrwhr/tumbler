@@ -7,7 +7,7 @@ class Sound
     @compressorNode_ = @context_.createDynamicsCompressor()
 
   play: (gain)->
-    buffer = SoundLoader.getBuffer(@soundName_)
+    buffer = SoundManager.getBuffer(@soundName_)
     return if not buffer
 
     @source_.stop(0) if @source_
@@ -15,12 +15,12 @@ class Sound
     gain = Math.max(Math.min(gain * gain ? 1, 1), 0)
     @gainNode_.gain.value = gain / 10
 
-    @source_ = SoundLoader.createBufferSource()
+    @source_ = SoundManager.createBufferSource()
     @source_.buffer = buffer
     @source_.connect(@gainNode_)
 
     # Actually hook up the sound to the destination.
-    SoundLoader.connectToDestination(@gainNode_)
+    SoundManager.connectToDestination(@gainNode_)
 
     @source_.start(0)
 

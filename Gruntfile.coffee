@@ -8,7 +8,11 @@ module.exports = (grunt) ->
           join: false
         files:
           'js/index.js': [
-            'coffee/*.coffee',
+            # Load the Shape module first as it gets extended.
+            'coffee/Shape.coffee'
+
+            # Then load everything else.
+            'coffee/*.coffee'
 
             # Load the content.coffee file last as it boots the Application.
             'coffee/index.coffee'

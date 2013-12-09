@@ -51,8 +51,12 @@ class Shape
     allColors[Math.floor(Math.random() * allColors.length)]
 
   generateRandomSound_: ->
-    sounds = 'abcdefghij'
-    SoundLoader.createSound(sounds.charAt(Math.floor(sounds.length * Math.random())))
+    scale = (@area_ - Config.MIN_SHAPE_AREA) /
+      (Config.MAX_SHAPE_AREA - Config.MIN_SHAPE_AREA)
+    scale = Math.round(scale * 11).toString()
+
+    console.log(scale)
+    SoundLoader.createSound(scale)
 
   generateId_: ->
     Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1)

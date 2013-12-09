@@ -1,31 +1,27 @@
 
 class Sound
   constructor: (options) ->
-    @context_ = options.context
     @soundName_ = options.soundName
-
-
-    @source_ = @context_.createBufferSource()
-
+    @context_ = options.context
+    @gainNode_ = @context_.createGain()
+    @compressorNode_ = @context_.createDynamicsCompressor()
 
   play: (gain)->
     buffer = SoundLoader.getBuffer(@soundName_)
     return if not buffer
 
+    @source_.stop(0) if @source_
+
     gain = Math.max(Math.min(gain * gain ? 1, 1), 0)
-    @gainNode_ = @context_.createGain()
-    @gainNode_.gain.value = gain
+    @gainNode_.gain.value = gain / 10
 
-    source = @context_.createBufferSource()
-    source.buffer = buffer
-    source.connect(@gainNode_)
-    @gainNode_.connect(@context_.destination)
+    @source_ = SoundLoader.createBufferSource()
+    @source_.buffer = buffer
+    @source_.connect(@gainNode_)
 
-    minRate = 0.5
-    maxRate = 1
+    # Actually hook up the sound to the destination.
+    SoundLoader.connectToDestination(@gainNode_)
 
-    source.playbackRate.value =(parseFloat(window.input.value) * (maxRate - minRate)) + minRate
-
-    source.start(0)
+    @source_.start(0)
 
 window.Sound = Sound

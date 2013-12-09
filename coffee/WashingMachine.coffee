@@ -5,13 +5,13 @@ b2AABB = Box2D.Collision.b2AABB
 
 class Box extends Shape
   constructor: (options) ->
-    super(options)
-
     @width_ = Utilities.rand(Config.MIN_BOX_DIMENSION,
       Config.MAX_BOX_DIMENSION)
     @height_ = Utilities.rand(Config.MIN_BOX_DIMENSION,
       Config.MAX_BOX_DIMENSION)
     @area_ = @width_ * @height_
+
+    super(options)
 
     @svgShape_ = document.createElementNS("http://www.w3.org/2000/svg", "rect")
     @svgShape_.setAttribute("width", @width_ * Config.SCALE * 2)
@@ -38,11 +38,19 @@ class Box extends Shape
 
     @svgShape_.setAttribute("transform", "translate(#{x}, #{y}) rotate(#{r})")
 
+  generateRandomSound_: ->
+    scale = (@area_ - Config.MIN_BOX_AREA) /
+      (Config.MAX_BOX_AREA - Config.MIN_BOX_AREA)
+    scale = Math.round(scale * 11).toString()
+
+    SoundLoader.createSound("glock-#{scale}")
+
 class Ball extends Shape
   constructor: (options) ->
-    super(options)
-
     @radius_ = Utilities.rand(Config.MIN_BALL_RADIUS, Config.MAX_BALL_RADIUS)
+    @area_ = @radius_ * @radius_ * Math.PI
+
+    super(options)
 
     @svgShape_ = document.createElementNS("http://www.w3.org/2000/svg",
       "circle")
@@ -61,6 +69,13 @@ class Ball extends Shape
     y = position.y * Config.SCALE
 
     @svgShape_.setAttribute("transform", "translate(#{x}, #{y})")
+
+  generateRandomSound_: ->
+    scale = (@area_ - Config.MIN_CIRCLE_AREA) /
+      (Config.MAX_CIRCLE_AREA - Config.MIN_CIRCLE_AREA)
+    scale = Math.round(scale * 11).toString()
+
+    SoundLoader.createSound("glock-#{scale}")
 
 
 class WashingMachine

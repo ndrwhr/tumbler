@@ -27,3 +27,15 @@ window.Config =
   # The entire simulation will always be run as close as possible to 60fps.
   "MIN_STEP_SIZE": 1/2400
   "MAX_STEP_SIZE": 1/100
+
+# Calculate the minimum and maximum areas of the different shapes. This will
+# be used to choose which sound to play.
+Config.MIN_CIRCLE_AREA = Math.min(
+  Config.MIN_BALL_RADIUS * Config.MIN_BALL_RADIUS * Math.PI)
+Config.MAX_CIRCLE_AREA = Math.max(
+  Config.MAX_BALL_RADIUS * Config.MAX_BALL_RADIUS * Math.PI)
+
+Config.MIN_BOX_AREA = Math.min(
+  Config.MIN_BOX_DIMENSION * Config.MIN_BOX_DIMENSION)
+Config.MAX_BOX_AREA = Math.max(
+  Config.MAX_BOX_DIMENSION * Config.MAX_BOX_DIMENSION)

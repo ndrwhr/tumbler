@@ -3,12 +3,8 @@ MAX_VELOCITY = 20.0;
 
 class Shape
   constructor: (options) ->
-    @id = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1)
-    @contacts_ = ''
-
     # Initialize all the physic components.
     @initializeDimensions_()
-    @world_ = options.world
 
     fixtureDef = new Box2D.Dynamics.b2FixtureDef()
     fixtureDef.density = 1.0
@@ -28,7 +24,7 @@ class Shape
     bodyDef.position.x = Config.WORLD_HALF_WIDTH + r * Math.cos(t)
     bodyDef.position.y = Config.WORLD_HALF_WIDTH + r * Math.sin(t)
 
-    @body_ = @world_.CreateBody(bodyDef)
+    @body_ = options.world.CreateBody(bodyDef)
     @body_.CreateFixture(fixtureDef)
     @body_.SetUserData(@)
 
@@ -43,16 +39,6 @@ class Shape
     # Finally, initialize the SVG element that will represent this object.
     @initializeColor_()
     @initializeSVGElement_(options.svg)
-
-  startContact: (otherContactId, relVelocity) ->
-    if @contacts_.indexOf isnt -1
-      @contacts_ += otherContactId
-
-      if MAX_VELOCITY and relVelocity
-        @playSound_(relVelocity)
-
-  endContact: (otherContactId) ->
-    @contacts_.replace(otherContactId, '')
 
   initializeColor_: ->
     allColors = ["#3498DB", "#2980B9", "#1abc9c", "#16a085", "#2ECC71",
@@ -70,7 +56,7 @@ class Shape
   initializeSoundName_: ->
     throw "This method must be defined by subclasses!"
 
-  playSound_: (relVelocity) ->
+  playSound: (relVelocity) ->
     buffer = SoundManager.getBuffer(@soundName_)
     return if not buffer
 

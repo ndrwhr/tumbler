@@ -21,7 +21,6 @@ class WashingMachine
 
     @contactListener_ = new Box2D.Dynamics.b2ContactListener()
     @contactListener_.BeginContact = @onContactStart_
-    @contactListener_.EndContact = @onContactEnd_
 
     @world_.SetContactListener(@contactListener_)
 
@@ -69,6 +68,7 @@ class WashingMachine
         ))
 
   onContactStart_: (contact) =>
+    # Don't do anything if the contacts aren't actually touching.
     return if not contact.IsTouching()
 
     worldManifold = new Box2D.Collision.b2WorldManifold()
@@ -79,23 +79,13 @@ class WashingMachine
     bodyB = contact.GetFixtureB().GetBody()
     userDataB = bodyB.GetUserData()
 
-    if userDataA and userDataB
-      aVel = bodyA.GetLinearVelocityFromWorldPoint(worldManifold.m_points[0])
-      bVel = bodyB.GetLinearVelocityFromWorldPoint(worldManifold.m_points[0])
-      aVel.Subtract(bVel)
-      relVelocity = aVel.Length()
-      userDataA.startContact(userDataB.id, relVelocity)
-      userDataB.startContact(userDataA.id, relVelocity)
+    aVel = bodyA.GetLinearVelocityFromWorldPoint(worldManifold.m_points[0])
+    bVel = bodyB.GetLinearVelocityFromWorldPoint(worldManifold.m_points[0])
+    aVel.Subtract(bVel)
+    relVelocity = aVel.Length()
 
-  onContactEnd_: (contact) =>
-    return if not contact.IsTouching()
-
-    userDataA = contact.GetFixtureA().GetBody().GetUserData()
-    userDataB = contact.GetFixtureB().GetBody().GetUserData()
-
-    if userDataA and userDataB
-      userDataA.endContact(userDataB.id)
-      userDataB.endContact(userDataA.id)
+    userDataA.playSound(relVelocity) if userDataA
+    userDataB.playSound(relVelocity) if userDataB
 
   update_: =>
     stepSize = Utilities.range(Config.MIN_STEP_SIZE, Config.MAX_STEP_SIZE,

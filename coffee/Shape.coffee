@@ -1,5 +1,5 @@
 
-MAX_VELOCITY = 10.0;
+MAX_VELOCITY = 20.0;
 
 class Shape
   constructor: (options) ->
@@ -32,11 +32,13 @@ class Shape
     @body_.CreateFixture(fixtureDef)
     @body_.SetUserData(@)
 
-
     # Initialize the the audio components.
     @initializeSoundName_()
     context = SoundManager.getContext()
     @gainNode_ = context.createGain()
+    @pannerNode_ = context.createPanner()
+    @pannerNode_.panningModel = "equalpower"
+    @pannerNode_.setPosition(0, 0, 0)
 
     # Finally, initialize the SVG element that will represent this object.
     @initializeColor_()
@@ -47,7 +49,7 @@ class Shape
       @contacts_ += otherContactId
 
       if MAX_VELOCITY and relVelocity
-        @playSound_(relVelocity / MAX_VELOCITY)
+        @playSound_(relVelocity)
 
   endContact: (otherContactId) ->
     @contacts_.replace(otherContactId, '')
@@ -68,18 +70,25 @@ class Shape
   initializeSoundName_: ->
     throw "This method must be defined by subclasses!"
 
-  playSound_: (gain)->
+  playSound_: (relVelocity) ->
     buffer = SoundManager.getBuffer(@soundName_)
     return if not buffer
 
     @source_.stop(0) if @source_
 
-    gain = Math.max(Math.min(gain * gain ? 1, 1), 0)
-    @gainNode_.gain.value = gain / 10
+    gain = relVelocity / MAX_VELOCITY
+    gain = Math.max(Math.min(gain * gain, 1), 0)
+
+    @gainNode_.gain.value = gain
+
+    position = @body_.GetPosition()
+    x = position.x - Config.WORLD_HALF_WIDTH / Config.WORLD_HALF_WIDTH
+    @pannerNode_.setPosition(x, 0, 0)
 
     @source_ = SoundManager.createBufferSource()
     @source_.buffer = buffer
-    @source_.connect(@gainNode_)
+    @source_.connect(@pannerNode_)
+    @pannerNode_.connect(@gainNode_)
 
     # Actually hook up the sound to the destination.
     SoundManager.connectToDestination(@gainNode_)

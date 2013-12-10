@@ -1,0 +1,53 @@
+Sound pack downloaded from Freesound.org
+----------------------------------------
+
+This pack of sounds contains sounds by pmedig ( http://www.freesound.org/people/pmedig/  )
+You can find this pack online at: http://www.freesound.org/people/pmedig/packs/10341/
+
+
+License details
+---------------
+
+Sampling+: http://creativecommons.org/licenses/sampling+/1.0/
+Creative Commons 0: http://creativecommons.org/publicdomain/zero/1.0/
+Attribution: http://creativecommons.org/licenses/by/3.0/
+Attribution Noncommercial: http://creativecommons.org/licenses/by-nc/3.0/
+
+
+Sounds in this pack
+-------------------
+
+  * 166369__pmedig__glockenspiel-g6.wav
+    * url: http://www.freesound.org/people/pmedig/sounds/166369/
+    * license: Attribution
+  * 166368__pmedig__glockenspiel-f6.wav
+    * url: http://www.freesound.org/people/pmedig/sounds/166368/
+    * license: Attribution
+  * 166367__pmedig__glockenspiel-f7.wav
+    * url: http://www.freesound.org/people/pmedig/sounds/166367/
+    * license: Attribution
+  * 166366__pmedig__glockenspiel-d6.wav
+    * url: http://www.freesound.org/people/pmedig/sounds/166366/
+    * license: Attribution
+  * 166365__pmedig__glockenspiel-d7.wav
+    * url: http://www.freesound.org/people/pmedig/sounds/166365/
+    * license: Attribution
+  * 166364__pmedig__glockenspiel-e6.wav
+    * url: http://www.freesound.org/people/pmedig/sounds/166364/
+    * license: Attribution
+  * 166363__pmedig__glockenspiel-e7.wav
+    * url: http://www.freesound.org/people/pmedig/sounds/166363/
+    * license: Attribution
+  * 166362__pmedig__glockenspiel-a6.wav
+    * url: http://www.freesound.org/people/pmedig/sounds/166362/
+    * license: Attribution
+  * 166361__pmedig__glockenspiel-b6.wav
+    * url: http://www.freesound.org/people/pmedig/sounds/166361/
+    * license: Attribution
+  * 166360__pmedig__glockenspiel-c6.wav
+    * url: http://www.freesound.org/people/pmedig/sounds/166360/
+    * license: Attribution
+  * 166359__pmedig__glockenspiel-c7.wav
+    * url: http://www.freesound.org/people/pmedig/sounds/166359/
+    * license: Attribution
+

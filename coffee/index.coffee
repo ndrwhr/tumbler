@@ -31,39 +31,19 @@ do ->
 window.addEventListener('DOMContentLoaded', ->
   SoundManager.load(
     sounds:
-      "convolver": "dining-living-true-stereo.wav"
+      "convolver": "dining-living-true-stereo.mp3"
 
-      'kalimba-0': '58687__arioke__kalimba-lam07-g3-nail-soft.wav'
-      'kalimba-1': '58691__arioke__kalimba-lam09-bb3-nail-soft.wav'
-      'kalimba-2': '58692__arioke__kalimba-lam10-c4-nail-med.wav'
-      'kalimba-3': '58695__arioke__kalimba-lam11-d4-nail-soft.wav'
-      'kalimba-4': '58712__arioke__kalimba-lam09-bb3-tip-med.wav'
-      'kalimba-5': '58715__arioke__kalimba-lam10-c4-tip-soft.wav'
-      'kalimba-6': '58716__arioke__kalimba-lam11-d4-tip-med.wav'
-      'kalimba-7': '58717__arioke__kalimba-lam11-d4-tip-soft.wav'
-      'kalimba-8': '58737__arioke__kalimba-lam10-c4-wipe-soft.wav'
-      'kalimba-10': '58739__arioke__kalimba-lam11-d4-wipe-soft.wav'
-
-
-      "glock-0": "glockenspiel/166367__pmedig__glockenspiel-f7.wav"
-      "glock-1": "glockenspiel/166363__pmedig__glockenspiel-e7.wav"
-      "glock-2": "glockenspiel/166365__pmedig__glockenspiel-d7.wav"
-      "glock-3": "glockenspiel/166359__pmedig__glockenspiel-c7.wav"
-      "glock-4": "glockenspiel/166361__pmedig__glockenspiel-b6.wav"
-      "glock-5": "glockenspiel/166362__pmedig__glockenspiel-a6.wav"
-      "glock-6": "glockenspiel/166369__pmedig__glockenspiel-g6.wav"
-      "glock-7": "glockenspiel/166368__pmedig__glockenspiel-f6.wav"
-      "glock-8": "glockenspiel/166364__pmedig__glockenspiel-e6.wav"
-      "glock-9": "glockenspiel/166366__pmedig__glockenspiel-d6.wav"
-      "glock-10": "glockenspiel/166360__pmedig__glockenspiel-c6.wav"
-
-
-      "marimba-0": "bamboo-marimba/130526__stomachache__f-hi-1.wav"
-      "marimba-1": "bamboo-marimba/130532__stomachache__d-1.wav"
-      "marimba-2": "bamboo-marimba/130528__stomachache__c-1.wav"
-      "marimba-3": "bamboo-marimba/130530__stomachache__a1.wav"
-      "marimba-4": "bamboo-marimba/130534__stomachache__g1.wav"
-      "marimba-5": "bamboo-marimba/130524__stomachache__f-low-1.wav"
+      "glock-0": "glockenspiel/mp3/f7.mp3"
+      "glock-1": "glockenspiel/mp3/e7.mp3"
+      "glock-2": "glockenspiel/mp3/d7.mp3"
+      "glock-3": "glockenspiel/mp3/c7.mp3"
+      "glock-4": "glockenspiel/mp3/b6.mp3"
+      "glock-5": "glockenspiel/mp3/a6.mp3"
+      "glock-6": "glockenspiel/mp3/g6.mp3"
+      "glock-7": "glockenspiel/mp3/f6.mp3"
+      "glock-8": "glockenspiel/mp3/e6.mp3"
+      "glock-9": "glockenspiel/mp3/d6.mp3"
+      "glock-10":"glockenspiel/mp3/c6.mp3"
   )
 
   window.input = document.querySelector('input')

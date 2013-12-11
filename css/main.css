@@ -8,8 +8,16 @@ html {
   position: relative;
   height: 100%;
   width: 100%;
-  font-family: helvetica;
-  font-weight: 100;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+body > * {
+  opacity: 1;
+  -webkit-transition: opacity ease-out 100ms;
+}
+
+body.loading > *:not(.loading-splash) {
+  opacity: 0;
 }
 
 #main-canvas {
@@ -21,6 +29,7 @@ html {
 
   width: calc(100% - 200px);
   height: 80%;
+  pointer-event: none;
 }
 
 .controls {
@@ -123,4 +132,42 @@ label[for="mute"] {
   padding-bottom: 20px;
   font-size: 13px;
   background: rgba(255, 255, 255, 0.9);
+}
+
+.loading-splash {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-pack: center;
+  -moz-box-align: center;
+
+  display: box;
+  box-orient: horizontal;
+  box-pack: center;
+  box-align: center;
+
+  font-size: 50px;
+  font-weight: 100;
+  color: #777;
+  text-align: center;
+}
+
+.loading-splash ol {
+  width: 500px;
+  margin: 100px auto 0;
+  list-style: none;
+}
+
+.loading-splash ol li:not(:last-child) {
+  margin-bottom: 10px;
 }

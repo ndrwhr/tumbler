@@ -6,8 +6,7 @@ class WashingMachine
     @initializeWorld_()
     @initializeDrum_()
     @initializeShapes_()
-
-    @requestFrame_()
+    @initializeSounds_()
 
   initializeWorld_: ->
     gravity = new Box2D.Common.Math.b2Vec2(0, 9)
@@ -60,6 +59,32 @@ class WashingMachine
           world: @world_
           svg: @svg_
         ))
+
+  initializeSounds_: ->
+    audioType = if Modernizr.audio.ogg then "ogg" else (
+      if Modernizr.audio.mp3 then "mp3" else "wav")
+
+    SoundManager.load(
+      sounds:
+        "convolver": "dining-living-true-stereo.mp3"
+
+        "glock-0": "glockenspiel/#{audioType}/f7.#{audioType}"
+        "glock-1": "glockenspiel/#{audioType}/e7.#{audioType}"
+        "glock-2": "glockenspiel/#{audioType}/d7.#{audioType}"
+        "glock-3": "glockenspiel/#{audioType}/c7.#{audioType}"
+        "glock-4": "glockenspiel/#{audioType}/b6.#{audioType}"
+        "glock-5": "glockenspiel/#{audioType}/a6.#{audioType}"
+        "glock-6": "glockenspiel/#{audioType}/g6.#{audioType}"
+        "glock-7": "glockenspiel/#{audioType}/f6.#{audioType}"
+        "glock-8": "glockenspiel/#{audioType}/e6.#{audioType}"
+        "glock-9": "glockenspiel/#{audioType}/d6.#{audioType}"
+        "glock-10":"glockenspiel/#{audioType}/c6.#{audioType}"
+
+      onProgress: (progress) =>
+        # document.body.classList.remove('loading')
+        console.log(progress)
+        # @requestFrame_() if progress is 1
+    )
 
   onContactStart_: (contact) =>
     # Don't do anything if the contacts aren't actually touching.

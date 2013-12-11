@@ -3,9 +3,18 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Balls and Lines</title>
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
-<body>
+<body class="loading">
+    <div class="loading-splash">
+        <ol>
+            <li>Sit back and relax</li>
+            <li>slow it down</li>
+            <li>watch it all tumble by...</li>
+        </ol>
+    </div>
+
     <svg xmlns="http://www.w3.org/2000/svg" height="400" width="400" viewBox="0 0 400 400" id="main-canvas"></svg>
 
     <div class="controls">
@@ -57,7 +66,6 @@
     </div>
 
     <div class="wut">
-        <p>Sit back. Relax. Slow it down and watch it all tumble by.</p>
     </div>
 
     <script type="text/javascript" src="js/Box2dWeb-2.1.a.3.min.js"></script>

@@ -62,5 +62,7 @@ SoundManager =
       )
     request.send();
 
+SoundManager.initialize()
+
 # export the class.
 window.SoundManager = SoundManager

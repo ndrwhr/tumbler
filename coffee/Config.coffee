@@ -28,6 +28,13 @@ window.Config =
   "MIN_STEP_SIZE": 1/2400
   "MAX_STEP_SIZE": 1/100
 
+  "MIN_AUDIO_PLAYBACK_RATE": 0.25
+  "MAX_AUDIO_PLAYBACK_RATE": 0.75
+
+  # The rate at which the simulation should currently be running. This value
+  # will be updated whenever the #rate input changes.
+  "SIMULATION_RATE": 1
+
 # Calculate the minimum and maximum areas of the different shapes. This will
 # be used to choose which sound to play.
 Config.MIN_CIRCLE_AREA = Math.min(

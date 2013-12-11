@@ -46,6 +46,13 @@ window.addEventListener('DOMContentLoaded', ->
       "glock-10":"glockenspiel/mp3/c6.mp3"
   )
 
-  window.input = document.querySelector('input')
+  document.querySelector('#rate').addEventListener('change', (evt) ->
+    Config.SIMULATION_RATE = parseFloat(evt.target.value)
+  )
+
+  document.querySelector('#mute').addEventListener('change', (evt) ->
+    SoundManager.mute(evt.target.checked)
+  )
+
   window.washingMachine = new WashingMachine()
 )

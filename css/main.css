@@ -41,12 +41,12 @@ html {
   left: 0;
 }
 
-.controls svg:nth-of-type(2) {
+.controls svg#fast-clock {
   left: auto;
   right: 0;
 }
 
-.controls input {
+.controls input[type="range"] {
   position: relative;
   display: inline-block;
   width: 200px;
@@ -91,6 +91,27 @@ input[type="range"]::-webkit-slider-thumb:after {
   right: 18px;
   -webkit-box-shadow: inset 0 0 0 10px #ddd;
   box-shadow: inset 0 0 0 10px #ddd;
+}
+
+#mute {
+  display: none;
+}
+
+#mute:not(:checked) + label > svg#speaker,
+#mute:checked + label > svg#speaker-muted {
+  display: block;
+}
+
+#mute:not(:checked) + label > svg#speaker-muted,
+#mute:checked + label > svg#speaker {
+  display: none;
+}
+
+label[for="mute"] {
+  position: absolute;
+  top: 3px;
+  right: -18px;
+  cursor: pointer;
 }
 
 .wut {

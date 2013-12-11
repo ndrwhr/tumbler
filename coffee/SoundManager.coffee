@@ -16,11 +16,13 @@ SoundManager =
   getContext: ->
     @context_
 
+  mute: (doit) ->
+    @masterGainNode_.gain.value = if doit then 0 else 1
+
   createBufferSource: ->
-    minRate = 0.25
-    maxRate = 0.75
     source = @context_.createBufferSource()
-    source.playbackRate.value =(parseFloat(window.input.value) * (maxRate - minRate)) + minRate
+    source.playbackRate.value = Utilities.range(Config.MIN_AUDIO_PLAYBACK_RATE,
+      Config.MAX_AUDIO_PLAYBACK_RATE, Config.SIMULATION_RATE)
     source
 
   connectToDestination: (node) ->

@@ -9,7 +9,7 @@
     <svg xmlns="http://www.w3.org/2000/svg" height="400" width="400" viewBox="0 0 400 400" id="main-canvas"></svg>
 
     <div class="controls">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+        <svg id="slow-clock" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
             <line x1="50" y1="50" x2="50" y2="18" stroke="#ccc" stroke-width="4" stroke-linecap="round">
                 <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="30s" repeatCount="indefinite"/>
             </line>
@@ -18,8 +18,8 @@
             </line>
             <circle cx="50" cy="50" r="43" stroke="#ccc" stroke-width="4" fill="none" />
         </svg>
-        <input type="range" min="0" max="1" value="1" step="0.001"/>
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+        <input id="rate" type="range" min="0" max="1" value="1" step="0.001"/>
+        <svg id="fast-clock" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
             <line x1="50" y1="50" x2="50" y2="18" stroke="#ccc" stroke-width="4" stroke-linecap="round">
                 <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="6s" repeatCount="indefinite"/>
             </line>
@@ -28,14 +28,40 @@
             </line>
             <circle cx="50" cy="50" r="43" stroke="#ccc" stroke-width="4" fill="none" />
         </svg>
+
+        <input id="mute" type="checkbox"/>
+        <label for="mute" title="mute!">
+            <svg id="speaker" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+                <g>
+                    <polygon points="39.389,13.769 22.235,28.606 6,28.606 6,47.699 21.989,47.699 39.389,62.75 39.389,13.769"
+                        style="stroke:#ccc;stroke-width:5;stroke-linejoin:round;fill:#ccc;"/>
+                    <path d="M 48.128,49.03 C 50.057,45.934 51.19,42.291 51.19,38.377 C 51.19,34.399 50.026,30.703 48.043,27.577"
+                        style="fill:none;stroke:#ccc;stroke-width:5;stroke-linecap:round"/>
+                    <path d="M 55.082,20.537 C 58.777,25.523 60.966,31.694 60.966,38.377 C 60.966,44.998 58.815,51.115 55.178,56.076"
+                        style="fill:none;stroke:#ccc;stroke-width:5;stroke-linecap:round"/>
+                    <path d="M 61.71,62.611 C 66.977,55.945 70.128,47.531 70.128,38.378 C 70.128,29.161 66.936,20.696 61.609,14.01"
+                        style="fill:none;stroke:#ccc;stroke-width:5;stroke-linecap:round"/>
+                </g>
+            </svg>
+            <svg id="speaker-muted" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+                <g>
+                    <polygon points="39.389,13.769 22.235,28.606 6,28.606 6,47.699 21.989,47.699 39.389,62.75 39.389,13.769"
+                        style="stroke:#ccc;stroke-width:5;stroke-linejoin:round;fill:#ccc;" />
+                    <path d="M 48.651772,50.269646 69.395223,25.971024"
+                        style="fill:none;stroke:#ccc;stroke-width:5;stroke-linecap:round"/>
+                    <path d="M 69.395223,50.269646 48.651772,25.971024"
+                        style="fill:none;stroke:#ccc;stroke-width:5;stroke-linecap:round"/>
+                </g>
+            </svg>
+        </label>
     </div>
 
-
     <div class="wut">
-        <p>Just sit back. Relax. Slow it down and watch it all tumble by.</p>
+        <p>Sit back. Relax. Slow it down and watch it all tumble by.</p>
     </div>
 
     <script type="text/javascript" src="js/Box2dWeb-2.1.a.3.min.js"></script>
+    <script type="text/javascript" src="js/modernizr.min.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
 </body>
 </html>

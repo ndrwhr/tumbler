@@ -89,7 +89,7 @@ class WashingMachine
 
   update_: =>
     stepSize = Utilities.range(Config.MIN_STEP_SIZE, Config.MAX_STEP_SIZE,
-      parseFloat(window.input.value))
+      Config.SIMULATION_RATE)
 
     @world_.Step(stepSize, 5, 5)
 

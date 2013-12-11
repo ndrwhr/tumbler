@@ -29,21 +29,30 @@ do ->
     w.cancelAnimationFrame = (id) -> clearTimeout id
 
 window.addEventListener('DOMContentLoaded', ->
+  SoundManager.initialize()
+  window.washingMachine = new WashingMachine()
+
+  audioType = if Modernizr.audio.ogg then "ogg" else (
+    if Modernizr.audio.mp3 then "mp3" else "wav")
+
   SoundManager.load(
     sounds:
       "convolver": "dining-living-true-stereo.mp3"
 
-      "glock-0": "glockenspiel/mp3/f7.mp3"
-      "glock-1": "glockenspiel/mp3/e7.mp3"
-      "glock-2": "glockenspiel/mp3/d7.mp3"
-      "glock-3": "glockenspiel/mp3/c7.mp3"
-      "glock-4": "glockenspiel/mp3/b6.mp3"
-      "glock-5": "glockenspiel/mp3/a6.mp3"
-      "glock-6": "glockenspiel/mp3/g6.mp3"
-      "glock-7": "glockenspiel/mp3/f6.mp3"
-      "glock-8": "glockenspiel/mp3/e6.mp3"
-      "glock-9": "glockenspiel/mp3/d6.mp3"
-      "glock-10":"glockenspiel/mp3/c6.mp3"
+      "glock-0": "glockenspiel/#{audioType}/f7.#{audioType}"
+      "glock-1": "glockenspiel/#{audioType}/e7.#{audioType}"
+      "glock-2": "glockenspiel/#{audioType}/d7.#{audioType}"
+      "glock-3": "glockenspiel/#{audioType}/c7.#{audioType}"
+      "glock-4": "glockenspiel/#{audioType}/b6.#{audioType}"
+      "glock-5": "glockenspiel/#{audioType}/a6.#{audioType}"
+      "glock-6": "glockenspiel/#{audioType}/g6.#{audioType}"
+      "glock-7": "glockenspiel/#{audioType}/f6.#{audioType}"
+      "glock-8": "glockenspiel/#{audioType}/e6.#{audioType}"
+      "glock-9": "glockenspiel/#{audioType}/d6.#{audioType}"
+      "glock-10":"glockenspiel/#{audioType}/c6.#{audioType}"
+
+    onProgress: (progress) ->
+      console.log(progress)
   )
 
   document.querySelector('#rate').addEventListener('change', (evt) ->
@@ -53,6 +62,4 @@ window.addEventListener('DOMContentLoaded', ->
   document.querySelector('#mute').addEventListener('change', (evt) ->
     SoundManager.mute(evt.target.checked)
   )
-
-  window.washingMachine = new WashingMachine()
 )

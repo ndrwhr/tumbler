@@ -64,7 +64,6 @@ class Shape
 
     gain = relVelocity / MAX_VELOCITY
     gain = Math.max(Math.min(gain * gain, 1), 0)
-
     @gainNode_.gain.value = gain
 
     position = @body_.GetPosition()

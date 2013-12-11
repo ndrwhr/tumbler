@@ -1,30 +1,24 @@
 
-# Pull out some commonly used objects.
-b2Vec2 = Box2D.Common.Math.b2Vec2
-
 class WashingMachine
   constructor: (options) ->
     @svg_ = document.querySelector("#main-canvas")
 
     @initializeWorld_()
-    @createDrumContainer_()
-    @createShapes_()
+    @initializeDrum_()
+    @initializeShapes_()
 
-    frame = =>
-      @update_()
-      requestAnimationFrame(frame)
-    frame()
+    @requestFrame_()
 
   initializeWorld_: ->
-    gravity = new b2Vec2(0, 9)
+    gravity = new Box2D.Common.Math.b2Vec2(0, 9)
     @world_ = new Box2D.Dynamics.b2World(gravity, true)
 
-    @contactListener_ = new Box2D.Dynamics.b2ContactListener()
-    @contactListener_.BeginContact = @onContactStart_
+    contactListener = new Box2D.Dynamics.b2ContactListener()
+    contactListener.BeginContact = @onContactStart_
 
-    @world_.SetContactListener(@contactListener_)
+    @world_.SetContactListener(contactListener)
 
-  createDrumContainer_: ->
+  initializeDrum_: ->
     drumBodyDef = new Box2D.Dynamics.b2BodyDef()
     drumBodyDef.type = Box2D.Dynamics.b2Body.b2_kinematicBody
     drumBodyDef.position.x = Config.WORLD_HALF_WIDTH
@@ -44,7 +38,7 @@ class WashingMachine
     sectionWidth = Config.WORLD_HALF_WIDTH * Math.sin(angleStep)
 
     while currentAngle < (Math.PI * 2)
-      initialPosition = new b2Vec2(
+      initialPosition = new Box2D.Common.Math.b2Vec2(
         Config.WORLD_HALF_WIDTH * Math.cos(currentAngle),
         Config.WORLD_HALF_WIDTH * Math.sin(currentAngle))
 
@@ -55,7 +49,7 @@ class WashingMachine
 
       currentAngle += angleStep
 
-  createShapes_: =>
+  initializeShapes_: ->
     @shapes_ = []
     for i in [1..Config.NUM_EACH_SHAPE]
       @shapes_.push(new Ball(
@@ -87,7 +81,7 @@ class WashingMachine
     userDataA.playSound(relVelocity) if userDataA
     userDataB.playSound(relVelocity) if userDataB
 
-  update_: =>
+  requestFrame_: =>
     stepSize = Utilities.range(Config.MIN_STEP_SIZE, Config.MAX_STEP_SIZE,
       Config.SIMULATION_RATE)
 
@@ -97,5 +91,6 @@ class WashingMachine
       shape.draw()
 
     @world_.ClearForces()
+    requestAnimationFrame(@requestFrame_)
 
 window.WashingMachine = WashingMachine

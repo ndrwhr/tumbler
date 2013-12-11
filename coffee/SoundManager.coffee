@@ -1,15 +1,19 @@
 
 SoundManager =
-  buffers_: {}
-  load: (options) ->
+  initialize: ->
     AudioContext = (window.AudioContext or window.webkitAudioContext)
     @context_ = new AudioContext()
     @masterGainNode_ = @context_.createGainNode()
     @masterGainNode_.gain.value = 1
     @compressorNode_ = @context_.createDynamicsCompressor()
     @convolverNode_ = @context_.createConvolver()
+    @buffers_ = {}
 
-    for soundName in Object.keys(options.sounds)
+  load: (options) ->
+    @onProgressCallback_ = options.onProgress
+    @buffers_ = {}
+    @buffersToLoad_ = Object.keys(options.sounds)
+    for soundName in @buffersToLoad_
       @loadSound_(soundName, '/sounds/' + options.sounds[soundName])
 
   # Simple getter for the AudioContext object.
@@ -29,6 +33,10 @@ SoundManager =
     if @convolverNode_.buffer
       node.connect(@convolverNode_)
       node = @convolverNode_
+    else
+      # If we can't load the convolver then everything sounds terrible. Might
+      # as well leave the user in silence.
+      return
 
     node.connect(@masterGainNode_)
     @masterGainNode_.connect(@compressorNode_)
@@ -45,13 +53,13 @@ SoundManager =
     request.onload = =>
       @context_.decodeAudioData(request.response, (buffer) =>
         console.log('loaded', file)
+        @buffers_[name] = buffer
+
         if name == "convolver"
           @convolverNode_.buffer = buffer
-        else
-          @buffers_[name] = buffer
-      , ->
-          console.error('Unable to load ' + file);
-      );
+
+        @onProgressCallback_(Object.keys(@buffers_).length / @buffersToLoad_.length)
+      )
     request.send();
 
 # export the class.

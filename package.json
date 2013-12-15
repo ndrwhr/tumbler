@@ -12,6 +12,8 @@
     "grunt": "~0.4.1",
     "grunt-contrib-coffee": "~0.7.0",
     "coffee-script": "~1.6.3",
-    "grunt-contrib-watch": "~0.5.3"
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-autoprefixer": "~0.4.2",
+    "autoprefixer": "~0.8.20131213"
   }
 }

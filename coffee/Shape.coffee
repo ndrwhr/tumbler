@@ -41,11 +41,7 @@ class Shape
     @initializeSVGElement_(options.svg)
 
   initializeColor_: ->
-    allColors = ["#3498DB", "#2980B9", "#1abc9c", "#16a085", "#2ECC71",
-      "#27AE60", "#9B59B6", "#8E44AD", "#8E44AD", "#2C3E50", "#F1C40F",
-      "#F39C12", "#E67E22", "#D35400", "#E74C3C", "#C0392B", "#ECF0F1",
-      "#BDC3C7", "#95A5A6", "#7F8C8D"]
-    @color_ = allColors[Math.floor(Math.random() * allColors.length)]
+    @color_ = Utilities.randomColor()
 
   initializeDimensions_: ->
     throw "This method must be defined by subclasses!"

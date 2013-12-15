@@ -1,20 +1,39 @@
 
 SoundManager =
   initialize: ->
-    AudioContext = (window.AudioContext or window.webkitAudioContext)
+    this.patchWindow_();
+
     @context_ = new AudioContext()
-    @masterGainNode_ = @context_.createGainNode()
+    @masterGainNode_ = @context_.createGain()
     @masterGainNode_.gain.value = 1
     @compressorNode_ = @context_.createDynamicsCompressor()
     @convolverNode_ = @context_.createConvolver()
     @buffers_ = {}
+    @loadingProgress_ = 0
 
-  load: (options) ->
-    @onProgressCallback_ = options.onProgress
+  load: () ->
+    audioType = if Modernizr.audio.ogg then "ogg" else (
+      if Modernizr.audio.mp3 then "mp3" else "wav")
+
+    sounds =
+      "convolver": "dining-living-true-stereo.#{audioType}"
+
+      "glock-0": "glockenspiel/#{audioType}/f7.#{audioType}"
+      "glock-1": "glockenspiel/#{audioType}/e7.#{audioType}"
+      "glock-2": "glockenspiel/#{audioType}/d7.#{audioType}"
+      "glock-3": "glockenspiel/#{audioType}/c7.#{audioType}"
+      "glock-4": "glockenspiel/#{audioType}/b6.#{audioType}"
+      "glock-5": "glockenspiel/#{audioType}/a6.#{audioType}"
+      "glock-6": "glockenspiel/#{audioType}/g6.#{audioType}"
+      "glock-7": "glockenspiel/#{audioType}/f6.#{audioType}"
+      "glock-8": "glockenspiel/#{audioType}/e6.#{audioType}"
+      "glock-9": "glockenspiel/#{audioType}/d6.#{audioType}"
+      "glock-10":"glockenspiel/#{audioType}/c6.#{audioType}"
+
     @buffers_ = {}
-    @buffersToLoad_ = Object.keys(options.sounds)
+    @buffersToLoad_ = Object.keys(sounds)
     for soundName in @buffersToLoad_
-      @loadSound_(soundName, '/sounds/' + options.sounds[soundName])
+      @loadSound_(soundName, '/sounds/' + sounds[soundName])
 
   # Simple getter for the AudioContext object.
   getContext: ->
@@ -22,6 +41,9 @@ SoundManager =
 
   mute: (doit) ->
     @masterGainNode_.gain.value = if doit then 0 else 1
+
+  getLoadedProgress: ->
+    return @loadingProgress_
 
   createBufferSource: ->
     source = @context_.createBufferSource()
@@ -45,6 +67,29 @@ SoundManager =
   getBuffer: (soundName) ->
     @buffers_[soundName]
 
+  # Patch inconsistencies between the old webkit api and the new standard api.
+  #
+  # THANKS OBAMA!
+  patchWindow_: ->
+    # Treat all context's equally.
+    window.AudioContext = (window.AudioContext or window.webkitAudioContext)
+
+    # An object that contains mappings from the old webkit API over to the new
+    # standard API for certain objects.
+    patches =
+      "AudioContext":
+        "createGain": "createGainNode"
+      "AudioBufferSourceNode":
+        "start": "noteOn"
+        "off": "noteOff"
+
+    for objectName in Object.keys(patches)
+      objPatches = patches[objectName]
+      for standardMethod in Object.keys(objPatches)
+        oldMethod = objPatches[standardMethod]
+        if not window[objectName][standardMethod]
+          window[objectName][standardMethod] = window[objectName][oldMethod]
+
   loadSound_: (name, file) ->
     request = new XMLHttpRequest()
     request.open('GET', file, true)
@@ -52,15 +97,19 @@ SoundManager =
 
     request.onload = =>
       @context_.decodeAudioData(request.response, (buffer) =>
-        console.log('loaded', file)
-        @buffers_[name] = buffer
-
-        if name == "convolver"
-          @convolverNode_.buffer = buffer
-
-        @onProgressCallback_(Object.keys(@buffers_).length / @buffersToLoad_.length)
+        @saveBuffer_(name, buffer)
       )
+
     request.send();
+
+  saveBuffer_: (name, buffer) ->
+    console.log('loaded:', name)
+    @buffers_[name] = buffer
+
+    if name == "convolver"
+      @convolverNode_.buffer = buffer
+
+    @loadingProgress_ = Object.keys(@buffers_).length / @buffersToLoad_.length
 
 SoundManager.initialize()
 

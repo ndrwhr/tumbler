@@ -29,7 +29,7 @@ do ->
     w.cancelAnimationFrame = (id) -> clearTimeout id
 
 window.addEventListener('DOMContentLoaded', ->
-  window.washingMachine = new WashingMachine()
+  new Loader()
 
   document.querySelector('#rate').addEventListener('change', (evt) ->
     Config.SIMULATION_RATE = parseFloat(evt.target.value)

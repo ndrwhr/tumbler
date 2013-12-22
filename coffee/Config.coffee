@@ -28,7 +28,7 @@ window.Config =
   "MIN_STEP_SIZE": 1/2400
   "MAX_STEP_SIZE": 1/100
 
-  "MIN_AUDIO_PLAYBACK_RATE": 0.25
+  "MIN_AUDIO_PLAYBACK_RATE": 0.15
   "MAX_AUDIO_PLAYBACK_RATE": 0.75
 
   # The rate at which the simulation should currently be running. This value

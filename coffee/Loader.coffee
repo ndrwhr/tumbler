@@ -99,7 +99,7 @@ class Loader
       el.classList.remove('hidden')
 
     if shownProgress < 1
-      setTimeout(@showProgress_, 50)
+      setTimeout(@showProgress_, 30)
     else
       @finishedLoading_()
 

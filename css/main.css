@@ -121,6 +121,11 @@ label[for="mute"] {
   cursor: pointer;
 }
 
+#mute:disabled + label > svg {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .links {
   position: absolute;
   top: 0;
@@ -129,6 +134,7 @@ label[for="mute"] {
   list-style: none;
   font-size: 13px;
   color: #ccc;
+  user-select: none;
 }
 
 .links li {

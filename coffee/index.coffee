@@ -35,7 +35,13 @@ window.addEventListener('DOMContentLoaded', ->
     Config.SIMULATION_RATE = parseFloat(evt.target.value)
   )
 
-  document.querySelector('#mute').addEventListener('change', (evt) ->
-    SoundManager.mute(evt.target.checked)
-  )
+  muteButton = document.querySelector('#mute')
+  if SoundManager.isSupported
+    muteButton.addEventListener('change', (evt) ->
+      SoundManager.mute(evt.target.checked)
+    )
+  else
+    muteButton.checked = muteButton.disabled = true
+    document.querySelector('#mute + label').title =
+      "Audio requires the Web Audio API which your browser does not support."
 )

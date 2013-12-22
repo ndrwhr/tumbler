@@ -13,10 +13,12 @@ class WashingMachine
     gravity = new Box2D.Common.Math.b2Vec2(0, 9)
     @world_ = new Box2D.Dynamics.b2World(gravity, true)
 
-    contactListener = new Box2D.Dynamics.b2ContactListener()
-    contactListener.BeginContact = @onContactStart_
-
-    @world_.SetContactListener(contactListener)
+    # Only initialize contact listeners if the users browser supports the
+    # web audio api.
+    if SoundManager.isSupported
+      contactListener = new Box2D.Dynamics.b2ContactListener()
+      contactListener.BeginContact = @onContactStart_
+      @world_.SetContactListener(contactListener)
 
   initializeDrum_: ->
     drumBodyDef = new Box2D.Dynamics.b2BodyDef()

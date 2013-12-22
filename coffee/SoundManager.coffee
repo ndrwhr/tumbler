@@ -3,6 +3,8 @@ SoundManager =
   initialize: ->
     this.patchWindow_();
 
+    @isSupported = Modernizr.webaudio
+
     @context_ = new AudioContext()
     @masterGainNode_ = @context_.createGain()
     @masterGainNode_.gain.value = 1
@@ -43,7 +45,7 @@ SoundManager =
     @masterGainNode_.gain.value = if doit then 0 else 1
 
   getLoadedProgress: ->
-    return @loadingProgress_
+    return if @isSupported then @loadingProgress_ else 1
 
   createBufferSource: ->
     source = @context_.createBufferSource()
@@ -103,15 +105,12 @@ SoundManager =
     request.send();
 
   saveBuffer_: (name, buffer) ->
-    console.log('loaded:', name)
     @buffers_[name] = buffer
 
     if name == "convolver"
       @convolverNode_.buffer = buffer
 
     @loadingProgress_ = Object.keys(@buffers_).length / @buffersToLoad_.length
-
-SoundManager.initialize()
 
 # export the class.
 window.SoundManager = SoundManager

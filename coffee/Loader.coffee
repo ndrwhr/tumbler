@@ -3,17 +3,17 @@ class Loader
   constructor: ->
     @canvas_ = document.querySelector("#loading-canvas")
 
-    document.querySelector('.loading-splash a').addEventListener('click',
-      @closeLoader_)
+    closeLink = document.querySelector(".loading-splash a")
+    closeLink.addEventListener("click", @closeLoader_)
 
     @initializeShapes_()
     @initalizeSounds_()
 
   closeLoader_: (evt) =>
     evt.preventDefault()
-    document.body.classList.remove('loading');
+    document.body.classList.remove("loading")
     setTimeout((->
-      splash = document.querySelector('.loading-splash')
+      splash = document.querySelector(".loading-splash")
       splash.parentNode.removeChild(splash)
 
       new WashingMachine()
@@ -79,15 +79,19 @@ class Loader
 
     r = Utilities.rand(0, 360)
     shape.style.fill = Utilities.randomColor()
-    shape.classList.add('hidden')
+    shape.classList.add("hidden")
     shape
 
   initalizeSounds_: ->
-    SoundManager.load()
+    SoundManager.initialize()
+    SoundManager.load() if SoundManager.isSupported
     @showProgress_()
 
   showProgress_: =>
-    progress = SoundManager.getLoadedProgress()
+    if SoundManager.isSupported
+      progress = SoundManager.getLoadedProgress()
+    else
+      progress = 1
 
     allShapes = @group_.querySelectorAll("rect, circle")
     loadedShapes = @group_.querySelectorAll("rect:not(.hidden),
@@ -96,7 +100,7 @@ class Loader
 
     if shownProgress < progress
       el = @group_.querySelector("rect.hidden, circle.hidden")
-      el.classList.remove('hidden')
+      el.classList.remove("hidden")
 
     if shownProgress < 1
       setTimeout(@showProgress_, 30)
@@ -104,7 +108,7 @@ class Loader
       @finishedLoading_()
 
   finishedLoading_: ->
-    ul = document.body.querySelector('.loading-splash ol')
-    ul.classList.remove('hidden')
+    ul = document.body.querySelector(".loading-splash ol")
+    ul.classList.remove("hidden")
 
 window.Loader = Loader

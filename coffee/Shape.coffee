@@ -28,13 +28,9 @@ class Shape
     @body_.CreateFixture(fixtureDef)
     @body_.SetUserData(@)
 
-    # Initialize the the audio components.
-    @initializeSoundName_()
-    context = SoundManager.getContext()
-    @gainNode_ = context.createGain()
-    @pannerNode_ = context.createPanner()
-    @pannerNode_.panningModel = "equalpower"
-    @pannerNode_.setPosition(0, 0, 0)
+    # Only initialize sound components if the user's browser supports the
+    # web audio api.
+    @initializeSound_() if SoundManager.isSupported
 
     # Finally, initialize the SVG element that will represent this object.
     @initializeColor_()
@@ -48,6 +44,16 @@ class Shape
 
   initializeSVGElement_: ->
     throw "This method must be defined by subclasses!"
+
+  initializeSound_: ->
+    # Don't do anything if the user does not support web audio.
+    context = SoundManager.getContext()
+    @gainNode_ = context.createGain()
+    @pannerNode_ = context.createPanner()
+    @pannerNode_.panningModel = "equalpower"
+    @pannerNode_.setPosition(0, 0, 0)
+
+    @initializeSoundName_()
 
   initializeSoundName_: ->
     throw "This method must be defined by subclasses!"

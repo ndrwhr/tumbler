@@ -46,3 +46,6 @@ Config.MIN_BOX_AREA = Math.min(
   Config.MIN_BOX_DIMENSION * Config.MIN_BOX_DIMENSION)
 Config.MAX_BOX_AREA = Math.max(
   Config.MAX_BOX_DIMENSION * Config.MAX_BOX_DIMENSION)
+
+Config.MIN_SHAPE_AREA = Math.min(Config.MIN_CIRCLE_AREA, Config.MIN_BOX_AREA)
+Config.MAX_SHAPE_AREA = Math.max(Config.MAX_CIRCLE_AREA, Config.MAX_BOX_AREA)

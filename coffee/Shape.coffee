@@ -53,10 +53,11 @@ class Shape
     @pannerNode_.panningModel = "equalpower"
     @pannerNode_.setPosition(0, 0, 0)
 
-    @initializeSoundName_()
+    scale = (@area_ - Config.MIN_SHAPE_AREA) /
+      (Config.MAX_SHAPE_AREA - Config.MIN_SHAPE_AREA)
+    scale = Math.round(scale * 11).toString()
 
-  initializeSoundName_: ->
-    throw "This method must be defined by subclasses!"
+    @soundName_ = "glock-#{scale}"
 
   playSound: (relVelocity) ->
     buffer = SoundManager.getBuffer(@soundName_)

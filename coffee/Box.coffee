@@ -24,13 +24,6 @@ class Box extends Shape
     @svgShape_.style.fill = @color_
     svgParent.appendChild(@svgShape_)
 
-  initializeSoundName_: ->
-    scale = (@area_ - Config.MIN_BOX_AREA) /
-      (Config.MAX_BOX_AREA - Config.MIN_BOX_AREA)
-    scale = Math.round(scale * 11).toString()
-
-    @soundName_ = "glock-#{scale}"
-
   initializeFixture_: (fixtureDef) ->
     fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape()
     fixtureDef.shape.SetAsBox(@width_, @height_)

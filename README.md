@@ -23,3 +23,4 @@ What came out of the combination of the above is something that I find myself st
 * [HTML5 Rocks - Developing Game Audio with the Web Audio API](http://www.html5rocks.com/en/tutorials/webaudio/games/)
 * [CoffeeScript](http://coffeescript.org/)
 * [Freesound.org](http://www.freesound.org/)
+    * All sounds are from the the [glockenspiel pack](http://www.freesound.org/people/pmedig/packs/10341/) by [pmedig](http://www.freesound.org/people/pmedig/)

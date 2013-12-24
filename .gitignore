@@ -1,4 +1,2 @@
 node_modules/*
-js/index.js
-css/main-processed.css
 .DS_Store

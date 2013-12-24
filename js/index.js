@@ -378,7 +378,7 @@
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         soundName = _ref[_i];
-        _results.push(this.loadSound_(soundName, '/sounds/' + sounds[soundName]));
+        _results.push(this.loadSound_(soundName, 'sounds/' + sounds[soundName]));
       }
       return _results;
     },

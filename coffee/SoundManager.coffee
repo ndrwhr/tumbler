@@ -35,7 +35,7 @@ SoundManager =
     @buffers_ = {}
     @buffersToLoad_ = Object.keys(sounds)
     for soundName in @buffersToLoad_
-      @loadSound_(soundName, '/sounds/' + sounds[soundName])
+      @loadSound_(soundName, 'sounds/' + sounds[soundName])
 
   # Simple getter for the AudioContext object.
   getContext: ->

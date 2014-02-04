@@ -34,6 +34,9 @@ window.addEventListener('DOMContentLoaded', ->
   document.querySelector('#rate').addEventListener('change', (evt) ->
     Config.SIMULATION_RATE = parseFloat(evt.target.value)
   )
+  document.querySelector('#reverse').addEventListener('change', (evt) ->
+    Config.DRUM_DIRECTION = if evt.target.checked then 1 else -1
+  )
 
   muteButton = document.querySelector('#mute')
   if SoundManager.isSupported

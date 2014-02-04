@@ -12,6 +12,7 @@ class WashingMachine
   initializeWorld_: ->
     gravity = new Box2D.Common.Math.b2Vec2(0, 9)
     @world_ = new Box2D.Dynamics.b2World(gravity, true)
+    @drumDirection = Config.DRUM_DIRECTION
 
     # Only initialize contact listeners if the users browser supports the
     # web audio api.
@@ -25,8 +26,8 @@ class WashingMachine
     drumBodyDef.type = Box2D.Dynamics.b2Body.b2_kinematicBody
     drumBodyDef.position.x = Config.WORLD_HALF_WIDTH
     drumBodyDef.position.y = Config.WORLD_HALF_WIDTH
-    drumBody = @world_.CreateBody(drumBodyDef)
-    drumBody.SetAngularVelocity(Config.DRUM_ANGULAR_VELOCITY)
+    @drumBody = @world_.CreateBody(drumBodyDef)
+    @setDirection()
 
     # Define the common fixture to be used by all of the sections.
     fixtureDef = new Box2D.Dynamics.b2FixtureDef()
@@ -47,7 +48,7 @@ class WashingMachine
       fixtureDef.shape.SetAsOrientedBox(0.1, sectionWidth / 2, initialPosition,
         currentAngle)
 
-      drumBody.CreateFixture(fixtureDef)
+      @drumBody.CreateFixture(fixtureDef)
 
       currentAngle += angleStep
 
@@ -83,9 +84,15 @@ class WashingMachine
     userDataA.playSound(relVelocity) if userDataA
     userDataB.playSound(relVelocity) if userDataB
 
+  setDirection: =>
+    @drumBody.SetAngularVelocity(Config.DRUM_ANGULAR_VELOCITY * Config.DRUM_DIRECTION)
+    @drumDirection = Config.DRUM_DIRECTION
+
   requestFrame_: =>
+    if Config.DRUM_DIRECTION != @drumDirection then @setDirection()
     stepSize = Utilities.range(Config.MIN_STEP_SIZE, Config.MAX_STEP_SIZE,
       Config.SIMULATION_RATE)
+
 
     @world_.Step(stepSize, 5, 5)
 

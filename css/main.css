@@ -100,7 +100,7 @@ input[type="range"]::-webkit-slider-thumb:after {
   box-shadow: inset 0 0 0 10px #ddd;
 }
 
-#mute {
+#mute, #reverse {
   display: none;
 }
 
@@ -124,6 +124,24 @@ label[for="mute"] {
 #mute:disabled + label > svg {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+label[for="reverse"] {
+  position: absolute;
+    top: -1px;
+    right: -56px;
+    cursor: pointer;
+    color: #ddd;
+    font-size: 21px;
+    font-weight: 100;
+}
+
+#reverse:checked + label[for="reverse"] > .clockwise {
+  display: none;
+}
+
+#reverse:not(:checked) + label[for="reverse"] > .anti-clockwise {
+  display: none;
 }
 
 .links {

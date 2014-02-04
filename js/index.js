@@ -187,6 +187,7 @@
     "WORLD_WIDTH": 10,
     "WORLD_HALF_WIDTH": 5,
     "DRUM_ANGULAR_VELOCITY": Math.PI / 3,
+    "DRUM_DIRECTION": 1,
     "NUM_DRUM_SECTIONS": 32,
     "MIN_BALL_RADIUS": 0.1,
     "MAX_BALL_RADIUS": 0.4,
@@ -500,6 +501,7 @@
   WashingMachine = (function() {
     function WashingMachine(options) {
       this.requestFrame_ = __bind(this.requestFrame_, this);
+      this.setDirection = __bind(this.setDirection, this);
       this.onContactStart_ = __bind(this.onContactStart_, this);
       this.svg_ = document.querySelector("#main-canvas");
       this.initializeWorld_();
@@ -512,6 +514,7 @@
       var contactListener, gravity;
       gravity = new Box2D.Common.Math.b2Vec2(0, 9);
       this.world_ = new Box2D.Dynamics.b2World(gravity, true);
+      this.drumDirection = Config.DRUM_DIRECTION;
       if (SoundManager.isSupported) {
         contactListener = new Box2D.Dynamics.b2ContactListener();
         contactListener.BeginContact = this.onContactStart_;
@@ -520,13 +523,13 @@
     };
 
     WashingMachine.prototype.initializeDrum_ = function() {
-      var angleStep, currentAngle, drumBody, drumBodyDef, fixtureDef, initialPosition, sectionWidth, _results;
+      var angleStep, currentAngle, drumBodyDef, fixtureDef, initialPosition, sectionWidth, _results;
       drumBodyDef = new Box2D.Dynamics.b2BodyDef();
       drumBodyDef.type = Box2D.Dynamics.b2Body.b2_kinematicBody;
       drumBodyDef.position.x = Config.WORLD_HALF_WIDTH;
       drumBodyDef.position.y = Config.WORLD_HALF_WIDTH;
-      drumBody = this.world_.CreateBody(drumBodyDef);
-      drumBody.SetAngularVelocity(Config.DRUM_ANGULAR_VELOCITY);
+      this.drumBody = this.world_.CreateBody(drumBodyDef);
+      this.setDirection();
       fixtureDef = new Box2D.Dynamics.b2FixtureDef();
       fixtureDef.density = 1.0;
       fixtureDef.friction = 1.0;
@@ -539,7 +542,7 @@
       while (currentAngle < (Math.PI * 2)) {
         initialPosition = new Box2D.Common.Math.b2Vec2(Config.WORLD_HALF_WIDTH * Math.cos(currentAngle), Config.WORLD_HALF_WIDTH * Math.sin(currentAngle));
         fixtureDef.shape.SetAsOrientedBox(0.1, sectionWidth / 2, initialPosition, currentAngle);
-        drumBody.CreateFixture(fixtureDef);
+        this.drumBody.CreateFixture(fixtureDef);
         _results.push(currentAngle += angleStep);
       }
       return _results;
@@ -585,8 +588,16 @@
       }
     };
 
+    WashingMachine.prototype.setDirection = function() {
+      this.drumBody.SetAngularVelocity(Config.DRUM_ANGULAR_VELOCITY * Config.DRUM_DIRECTION);
+      return this.drumDirection = Config.DRUM_DIRECTION;
+    };
+
     WashingMachine.prototype.requestFrame_ = function() {
       var shape, stepSize, _i, _len, _ref;
+      if (Config.DRUM_DIRECTION !== this.drumDirection) {
+        this.setDirection();
+      }
       stepSize = Utilities.range(Config.MIN_STEP_SIZE, Config.MAX_STEP_SIZE, Config.SIMULATION_RATE);
       this.world_.Step(stepSize, 5, 5);
       _ref = this.shapes_;
@@ -658,6 +669,9 @@
     new Loader();
     document.querySelector('#rate').addEventListener('change', function(evt) {
       return Config.SIMULATION_RATE = parseFloat(evt.target.value);
+    });
+    document.querySelector('#reverse').addEventListener('change', function(evt) {
+      return Config.DRUM_DIRECTION = evt.target.checked ? 1 : -1;
     });
     muteButton = document.querySelector('#mute');
     if (SoundManager.isSupported) {

@@ -13,6 +13,7 @@ window.Config =
 
   # The speed at which the main drum should rotate.
   "DRUM_ANGULAR_VELOCITY": Math.PI / 3
+  "DRUM_DIRECTION": 1
 
   # The number of fixtures that should be used to create the drum.
   "NUM_DRUM_SECTIONS": 32

@@ -24,3 +24,10 @@ What came out of the combination of the above is something that I find myself st
 * [CoffeeScript](http://coffeescript.org/)
 * [Freesound.org](http://www.freesound.org/)
     * All sounds are from the the [glockenspiel pack](http://www.freesound.org/people/pmedig/packs/10341/) by [pmedig](http://www.freesound.org/people/pmedig/)
+
+### Building
+
+1. Run `npm install`.
+2. `grunt`.
+3. In another terminal run a server to serve this projects directory (e.g. `python -m SimpleHTTPServer 8080`).
+4. Open up the browser
